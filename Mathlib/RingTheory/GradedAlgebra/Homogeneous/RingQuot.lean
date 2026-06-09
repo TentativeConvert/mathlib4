@@ -117,7 +117,7 @@ theorem coeLinearMap_quotSubmodule_surjective :
   conv_rhs => rw [← e]
   apply coeLinearMap_quotSubmodule_lmap_quotSubmoduleMap_apply
 
-theorem coeLinearMap_quotSubmodule_injective (hrel : Rel.IsHomogeneous 𝒜 rel) :
+theorem coeLinearMap_quotSubmodule_injective (hrel : Rel.IsHomogeneous 𝒜 (RingConGen.Rel rel)) :
     Injective (coeLinearMap (quotSubmodule 𝒜 rel)) := by
   have surj : Surjective (lmap (quotSubmoduleMap 𝒜 rel)) := by
     rw [lmap_surjective]
@@ -135,26 +135,28 @@ theorem coeLinearMap_quotSubmodule_injective (hrel : Rel.IsHomogeneous 𝒜 rel)
       Quot.eq, RingQuot.eqvGen_rel_eq] using hxy
   simpa [← AlgHom.coe_toRingHom, RingQuot.mkAlgHom_coe, RingQuot.mkRingHom,
       Quot.eq, RingQuot.eqvGen_rel_eq]
-    using RingConGen.Rel.isHomogeneous_of 𝒜 hrel hxy i
+    using hrel hxy i
 
-lemma coeLinearMap_quotSubmodule_bijective (hrel : Rel.IsHomogeneous 𝒜 rel) :
+lemma coeLinearMap_quotSubmodule_bijective (hrel : Rel.IsHomogeneous 𝒜 (RingConGen.Rel rel)) :
     Bijective (coeLinearMap (quotSubmodule 𝒜 rel)) :=
   ⟨coeLinearMap_quotSubmodule_injective 𝒜 rel hrel, coeLinearMap_quotSubmodule_surjective 𝒜 rel⟩
 
 /-- The decomposition of the quotient ring is an internal direct sum -/
-lemma quotDecomposition_isInternal (hrel : Rel.IsHomogeneous 𝒜 rel) :
+lemma quotDecomposition_isInternal (hrel : Rel.IsHomogeneous 𝒜 (RingConGen.Rel rel)) :
     IsInternal (quotSubmodule 𝒜 rel) :=
   coeLinearMap_quotSubmodule_bijective 𝒜 rel hrel
 
 /-- The decomposition of `RingQuot rel` as a direct sum of its graded pieces. -/
 @[implicit_reducible]
-noncomputable def quotDecomposition [GradedAlgebra 𝒜] (hrel : Rel.IsHomogeneous 𝒜 rel) :
+noncomputable def quotDecomposition [GradedAlgebra 𝒜]
+    (hrel : Rel.IsHomogeneous 𝒜 (RingConGen.Rel rel)) :
     Decomposition (quotSubmodule 𝒜 rel) :=
   IsInternal.chooseDecomposition _ (quotDecomposition_isInternal _ _ hrel)
 
 /-- The graded algebra structure on `RingQuot rel`. -/
 @[implicit_reducible]
-noncomputable def quotGradedAlgebra [GradedAlgebra 𝒜] (hrel : Rel.IsHomogeneous 𝒜 rel) :
+noncomputable def quotGradedAlgebra [GradedAlgebra 𝒜]
+    (hrel : Rel.IsHomogeneous 𝒜 (RingConGen.Rel rel)) :
     GradedAlgebra (quotSubmodule 𝒜 rel) where
   toDecomposition := quotDecomposition 𝒜 rel hrel
 

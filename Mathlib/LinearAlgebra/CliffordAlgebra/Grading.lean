@@ -52,11 +52,9 @@ theorem RelIsPureHomogeneous :
 
 open DirectSum in
 theorem RelIsHomogeneous :
-    Rel.IsHomogeneous (Decomposition.map mod2red (TensorAlgebra.𝒯 R M)) (Rel Q) := by
-    apply Rel.IsPureHomogeneous.isHomogeneous (Decomposition.map mod2red (TensorAlgebra.𝒯 R M))
-      (Rel Q)
-    · simpa using (Rel.of (Q := Q) 0)
-    · exact RelIsPureHomogeneous Q
+    Rel.IsHomogeneous (Decomposition.map mod2red (TensorAlgebra.𝒯 R M)) (RingConGen.Rel (Rel Q)) :=
+    by
+  exact RingConGen.Rel.isHomogeneous_of_isPureHomogeneous _ (RelIsPureHomogeneous Q)
 
 def evenOdd : ZMod 2 → Submodule R (CliffordAlgebra Q) :=
     Rel.quotSubmodule (DirectSum.Decomposition.map mod2red (TensorAlgebra.𝒯 R M)) (Rel Q)
